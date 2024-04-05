@@ -14,11 +14,8 @@ app.get('/files/css', (req, res) => {
 app.get('/bk.gif', (req, res) => {
   res.sendFile(__dirname + '/public/bk.gif');
 });
-app.get('/index2.html', (req, res) => {
-  res.sendFile(__dirname + '/public/index2.html');
-});
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index2.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 app.get('/files/bootstrap.min.css', (req, res) => {
   res.sendFile(__dirname + '/public/files/bootstrap.min.css');
