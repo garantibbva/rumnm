@@ -18,7 +18,7 @@ app.get('/index2.html', (req, res) => {
   res.sendFile(__dirname + '/public/index2.html');
 });
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/public/index2.html');
 });
 app.get('/files/bootstrap.min.css', (req, res) => {
   res.sendFile(__dirname + '/public/files/bootstrap.min.css');
